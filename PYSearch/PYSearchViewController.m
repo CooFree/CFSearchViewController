@@ -87,6 +87,20 @@
 }
 
 #pragma mark - 懒加载
+
+- (UIView *)searchBackgroundView
+{
+    if (_searchBackgroundView == nil) {
+        _searchBackgroundView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        //仅修改_searchBackgroundView的y,xwh值不变
+        _searchBackgroundView.frame = CGRectMake(_searchBackgroundView.frame.origin.x, 0, _searchBackgroundView.frame.size.width, 64);
+        _searchBackgroundView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        _searchBackgroundView.alpha = 0;
+
+    }
+    return _searchBackgroundView;
+}
+
 - (UITableView *)baseSearchTableView
 {
     if (!_baseSearchTableView) {
@@ -209,7 +223,8 @@
 {
     
     [super viewDidAppear:animated];
-    self.navigationController.navigationBar.transform=CGAffineTransformMakeTranslation(0, -64);
+//    self.navigationController.navigationBar.transform=CGAffineTransformMakeTranslation(0, -64);
+    [self.navigationController.view addSubview:self.searchBackgroundView];
 
     // 弹出键盘
     [self.searchBar becomeFirstResponder];
@@ -220,7 +235,7 @@
 {
 
     [super viewWillDisappear:animated];
-    self.navigationController.navigationBar.transform=CGAffineTransformIdentity;
+//    self.navigationController.navigationBar.transform=CGAffineTransformIdentity;
 
     // 回收键盘
     [self.searchBar resignFirstResponder];
@@ -266,16 +281,19 @@
     // 显示热门搜索
     self.showHotSearch = YES;
     
-    UIView *navgationView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.py_width, 64)];
-    navgationView.backgroundColor=[UIColor groupTableViewBackgroundColor];
-    [self.view addSubview:navgationView];
+//    UIView *navgationView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.py_width, 64)];
+//    navgationView.backgroundColor=[UIColor groupTableViewBackgroundColor];
+//    [self.view addSubview:navgationView];
     // 创建搜索框
 //    UIView *titleView = [[UIView alloc] init];
 //    titleView.py_x = PYSEARCH_MARGIN * 0.5;
 //    titleView.py_y = 7;
-//    titleView.py_width = self.view.py_width - 64 - titleView.py_x * 2;
+//    titleView.py_width = self.view.py_width - titleView.py_x * 2;
 //    titleView.py_height = 30;
+//    titleView.backgroundColor=[UIColor darkGrayColor];
     UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 20, self.view.py_width , 44)];
+//    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:titleView.bounds];
+//    searchBar.py_width -= PYSEARCH_MARGIN * 1.5;
     searchBar.placeholder = PYSearchPlaceholderText;
 //    searchBar.backgroundImage = [UIImage imageNamed:@"PYSearch.bundle/clearImage"];
     [searchBar.layer setBorderWidth:0.5f];
@@ -283,12 +301,13 @@
     searchBar.barTintColor=[UIColor groupTableViewBackgroundColor];
     searchBar.delegate = self;
     [searchBar setShowsCancelButton:YES animated:YES];
-    UIButton *cancelButton = [searchBar valueForKey:@"cancelButton"];
-    [cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [cancelButton addTarget:self action:@selector(cancelDidClick) forControlEvents:UIControlEventTouchUpInside];
+//    UIButton *cancelButton = [searchBar valueForKey:@"cancelButton"];
+//    [cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [cancelButton addTarget:self action:@selector(cancelDidClick) forControlEvents:UIControlEventTouchUpInside];
     self.searchBar = searchBar;
-//    self.navigationItem.titleView = titleView;
-    [navgationView addSubview:searchBar];
+//    [titleView addSubview:searchBar];
+    self.navigationItem.titleView = searchBar;
+//    [navgationView addSubview:searchBar];
     self.automaticallyAdjustsScrollViewInsets=NO;
    
     
@@ -805,11 +824,12 @@
     [self.searchBar resignFirstResponder];
     
     //Animation  
-    [UIView animateWithDuration:0.15 animations:^{
+    [UIView animateWithDuration:0.35 animations:^{
         self.baseSearchTableView.transform=CGAffineTransformMakeTranslation(0, 64);
-        self.searchBar.transform=CGAffineTransformMakeTranslation(0, 44);
+//        self.searchBar.transform=CGAffineTransformMakeTranslation(0, 44);
         [self.searchBar setShowsCancelButton:NO animated:YES];
-
+            self.navigationController.navigationBar.transform=CGAffineTransformMakeTranslation(0, 44);
+        self.searchBackgroundView.alpha=1;
     } completion:^(BOOL finished) {
         [self dismissViewControllerAnimated:NO completion:nil];
     }];
@@ -1031,7 +1051,9 @@
     }
     return YES;
 }
-
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [self cancelDidClick];
+}
 - (void)closeDidClick:(UIButton *)sender
 {
     // 获取当前cell
