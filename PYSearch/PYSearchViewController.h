@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
+#import "PYSearchSuggestionViewController.h"
 @class PYSearchViewController, PYSearchSuggestionViewController;
 
 typedef void(^PYDidSearchBlock)(PYSearchViewController *searchViewController, UISearchBar *searchBar, NSString *searchText); // 开始搜索时调用的block
@@ -164,6 +165,11 @@ typedef NS_ENUM(NSInteger, PYSearchResultShowMode) { // 搜索结果显示方式
  */
 + (PYSearchViewController *)searchViewControllerWithHotSearches:(NSArray<NSString *> *)hotSearches searchBarPlaceholder:(NSString *)placeholder didSearchBlock:(PYDidSearchBlock)block;
 
+/** 基本搜索TableView(显示历史搜索和搜索记录) */
+@property (nonatomic, strong) UITableView *baseSearchTableView;
+
+/** 搜索建议（推荐）控制器 */
+@property (nonatomic, weak) PYSearchSuggestionViewController *searchSuggestionVC;
 
 @property (nonatomic, strong) UIView *searchBackgroundView;
 
