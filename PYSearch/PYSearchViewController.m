@@ -107,7 +107,7 @@
 - (UITableView *)baseSearchTableView
 {
     if (!_baseSearchTableView) {
-        UITableView *baseSearchTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.py_width, self.view.py_height-64) style:UITableViewStyleGrouped];
+        UITableView *baseSearchTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, self.view.py_width, self.view.py_height-64) style:UITableViewStyleGrouped];
         baseSearchTableView.backgroundColor = [UIColor clearColor];
         baseSearchTableView.delegate = self;
         baseSearchTableView.dataSource = self;
@@ -222,14 +222,23 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
 //    [self.navigationController.view addSubview:self.searchBackgroundView];
-    
+//    self.navigationController.navigationBarHidden=YES;
+//    self.navigationController.navigationBar.transform = CGAffineTransformMakeTranslation(0, -64);
+
+    [super viewWillAppear:animated];
+//    self.navigationController.navigationBarHidden=YES;
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+
 }
 /** 视图完全显示 */
 - (void)viewDidAppear:(BOOL)animated
 {
-    
+
     [super viewDidAppear:animated];
 //    self.navigationController.navigationBar.transform=CGAffineTransformMakeTranslation(0, -64);
+
+//        self.navigationController.navigationBarHidden=YES;
+        self.navigationController.navigationBar.transform=CGAffineTransformIdentity;
 
     // 弹出键盘
     [self.searchBar becomeFirstResponder];
@@ -246,8 +255,13 @@
     [self.searchBar resignFirstResponder];
 }
 - (void)viewDidDisappear:(BOOL)animated {
+    
+    self.navigationController.navigationBarHidden=NO;
+    self.navigationController.navigationBar.transform = CGAffineTransformIdentity;
     [super viewDidDisappear:animated];
 //        self.navigationController.navigationBar.transform=CGAffineTransformIdentity;
+
+   
 
 }
 //- (void)viewWillAppear:(BOOL)animated {
@@ -272,7 +286,7 @@
     
     self.baseSearchTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(cancelDidClick)];
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(cancelDidClick)];
 
     /**
      * 设置一些默认设置
@@ -294,9 +308,17 @@
     // 显示热门搜索
     self.showHotSearch = YES;
     
-//    UIView *navgationView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.py_width, 64)];
-//    navgationView.backgroundColor=[UIColor groupTableViewBackgroundColor];
-//    [self.view addSubview:navgationView];
+    UIView *navgationView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.py_width, 64)];
+    navgationView.backgroundColor=[UIColor groupTableViewBackgroundColor];
+    [self.view addSubview:navgationView];
+    
+  UIButton  *_cancelBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    _cancelBtn.frame=CGRectMake(self.view.frame.size.width-44, 20, 40, 44);
+    [_cancelBtn addTarget:self action:@selector(cancelDidClick) forControlEvents:UIControlEventTouchUpInside];
+    [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [_cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [navgationView addSubview:_cancelBtn];
+    
     // 创建搜索框
 //    UIView *titleView = [[UIView alloc] init];
 //    titleView.py_x = PYSEARCH_MARGIN * 0.5;
@@ -304,13 +326,13 @@
 //    titleView.py_width = self.view.py_width - titleView.py_x * 2;
 //    titleView.py_height = 30;
 //    titleView.backgroundColor=[UIColor darkGrayColor];
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 20, self.view.py_width , 44)];
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 20, self.view.py_width -40, 44)];
 //    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:titleView.bounds];
 //    searchBar.py_width -= PYSEARCH_MARGIN * 1.5;
     searchBar.placeholder = PYSearchPlaceholderText;
 //    searchBar.backgroundImage = [UIImage imageNamed:@"PYSearch.bundle/clearImage"];
     [searchBar.layer setBorderWidth:0.5f];
-    [searchBar.layer setBorderColor:[UIColor clearColor].CGColor];
+    [searchBar.layer setBorderColor:[UIColor groupTableViewBackgroundColor].CGColor];
     searchBar.barTintColor=[UIColor groupTableViewBackgroundColor];
     searchBar.delegate = self;
 //    [searchBar setShowsCancelButton:YES animated:YES];
@@ -319,8 +341,8 @@
 //    [cancelButton addTarget:self action:@selector(cancelDidClick) forControlEvents:UIControlEventTouchUpInside];
     self.searchBar = searchBar;
 //    [titleView addSubview:searchBar];
-    self.navigationItem.titleView = searchBar;
-//    [navgationView addSubview:searchBar];
+//    self.navigationItem.titleView = searchBar;
+    [navgationView addSubview:searchBar];
     self.automaticallyAdjustsScrollViewInsets=NO;
     // 弹出键盘
     [self.searchBar becomeFirstResponder];
@@ -848,11 +870,11 @@
 //        self.searchBar.transform=CGAffineTransformMakeTranslation(0, 44);
 //        [self.searchBar setShowsCancelButton:NO animated:YES];
 //        [self.searchBar setFrame:CGRectMake(self.searchBar.py_x, self.searchBar.py_y, self.view.bounds.size.width, self.searchBar.py_height)];
-        self.navigationItem.rightBarButtonItem=nil;
-            self.navigationController.navigationBar.transform=CGAffineTransformMakeTranslation(0, 44);
+//        self.navigationItem.rightBarButtonItem=nil;
+//            self.navigationController.navigationBar.transform=CGAffineTransformMakeTranslation(0, 44);
         self.baseSearchTableView.alpha=0;
     } completion:^(BOOL finished) {
-        [self dismissViewControllerAnimated:NO completion:nil];
+//        [self dismissViewControllerAnimated:NO completion:nil];
     }];
     
     // dismiss ViewController
@@ -897,6 +919,10 @@
 {
     UILabel *label = (UILabel *)gr.view;
     self.searchBar.text = label.text;
+    
+    self.navigationController.navigationBarHidden=NO;
+
+    self.navigationController.navigationBar.transform = CGAffineTransformIdentity;
     
     if (label.tag == 1) { // 热门搜索标签
         // 取出下标

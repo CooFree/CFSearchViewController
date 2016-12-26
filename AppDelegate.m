@@ -35,11 +35,11 @@
     
 //    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navBg"] forBarMetrics:UIBarMetricsDefault];
     
-    [[UINavigationBar appearance]setBarTintColor:[UIColor blueColor]];
+    [[UINavigationBar appearance]setBarTintColor:[UIColor brownColor]];
     
     ViewController * VC = [[ViewController alloc]init];
     UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:VC];
-//    nav.navigationBar.translucent=NO;
+    nav.navigationBar.translucent=NO;
     self.window.rootViewController = nav;
     
     return YES;

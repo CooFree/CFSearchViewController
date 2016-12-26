@@ -38,8 +38,8 @@ static CGFloat viewOffset = 64;
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor whiteColor];
-//    self.automaticallyAdjustsScrollViewInsets=NO;
-       
+    self.automaticallyAdjustsScrollViewInsets=NO;
+    
     
 //   [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:20/255.0 green:155/255.0 blue:213/255.0 alpha:1.0]];
     
@@ -56,7 +56,7 @@ static CGFloat viewOffset = 64;
 - (UIView *)headView {
     UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)];
     view.backgroundColor=[UIColor groupTableViewBackgroundColor];
-    [view addSubview:self.cancelBtn];
+//    [view addSubview:self.cancelBtn];
     [view addSubview:self.searchBar];
     return view;
 }
@@ -83,6 +83,7 @@ static CGFloat viewOffset = 64;
         
         [self.searchController.view removeFromSuperview];
         [self.searchController removeFromParentViewController];
+        self.searchController=nil;
     }completion:^(BOOL finished) {
     }];
 }
@@ -119,7 +120,8 @@ static CGFloat viewOffset = 64;
 //        [self presentViewController:nav  animated:NO completion:nil];
         
 //        self.navigationController.navigationBarHidden=YES;
-        self.searchController.view.frame=CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height-64);
+//        self.searchController.view.frame=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+        self.searchController.view.backgroundColor=[UIColor brownColor];
         [self addChildViewController:self.searchController];
         [self.view addSubview:self.searchController.view];
         
@@ -154,7 +156,7 @@ static CGFloat viewOffset = 64;
     [cancelButton addTarget:self action:@selector(cancelButtonClickEvent) forControlEvents:UIControlEventTouchUpInside];
     
 }
-
+/*
 - (void)cancelButtonClickEvent{
     
     [UIView animateWithDuration:0.3 animations:^{
@@ -174,7 +176,7 @@ static CGFloat viewOffset = 64;
     self.searchBar.placeholder = @"搜索";
     [self.searchBar setImage:[UIImage imageNamed:@"search"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
 }
-
+*/
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     // 如果有搜索文本且显示搜索建议，则隐藏
@@ -219,7 +221,8 @@ static CGFloat viewOffset = 64;
     }
 }
 - (void)didClickCancel:(PYSearchViewController *)searchViewController {
-    [self cancelButtonClickEvent];
+//    [self cancelButtonClickEvent];
+    [self cancelBtnClick];
 }
 
 - (PYSearchViewController *)searchController {
@@ -264,7 +267,7 @@ static CGFloat viewOffset = 64;
         // 4. 设置代理
         searchViewController.delegate = self;
         
-        searchViewController.searchBar=self.searchBar;
+//        searchViewController.searchBar=self.searchBar;
         _searchController=searchViewController;
         
     }

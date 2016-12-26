@@ -15,11 +15,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+//    self.navigationController.navigationBarHidden=YES;
     self.title = @"SearchResultViewController";
     self.view.backgroundColor = PYSEARCH_RANDOM_COLOR;
 }
-
+- (void)viewDidDisappear:(BOOL)animated {
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
