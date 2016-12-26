@@ -256,8 +256,8 @@
 }
 - (void)viewDidDisappear:(BOOL)animated {
     
-    self.navigationController.navigationBarHidden=NO;
-    self.navigationController.navigationBar.transform = CGAffineTransformIdentity;
+//    self.navigationController.navigationBarHidden=NO;
+//    self.navigationController.navigationBar.transform = CGAffineTransformIdentity;
     [super viewDidDisappear:animated];
 //        self.navigationController.navigationBar.transform=CGAffineTransformIdentity;
 
@@ -367,6 +367,7 @@
     self.baseSearchTableView.tableHeaderView = headerView;
     
     // 设置底部(清除历史搜索)
+    /*
     UIView *footerView = [[UIView alloc] init];
     footerView.py_width = PYScreenW;
     UILabel *emptySearchHistoryLabel = [[UILabel alloc] init];
@@ -381,6 +382,8 @@
     [footerView addSubview:emptySearchHistoryLabel];
     footerView.py_height = 30;
     self.baseSearchTableView.tableFooterView = footerView;
+    */
+    
     
     // 默认没有热门搜索
     self.hotSearches = nil;
@@ -561,6 +564,8 @@
 {
     // 添加和布局标签
     self.hotSearchTags = [self addAndLayoutTagsWithTagsContentView:self.hotSearchTagsContentView tagTexts:self.hotSearches];
+//    self.hotSearchTags = [self addAndLayoutTagsWithTagsContentView:self.hotSearchTagsContentView tagTexts:[self.searchHistories copy]];
+
     // 根据hotSearchStyle设置标签样式
     [self setHotSearchStyle:self.hotSearchStyle];
 }
@@ -579,6 +584,8 @@
     self.searchHistoryTagsContentView.py_y = CGRectGetMaxY(self.emptyButton.frame) + PYSEARCH_MARGIN;
     // 添加和布局标签
     self.searchHistoryTags = [self addAndLayoutTagsWithTagsContentView:self.searchHistoryTagsContentView tagTexts:[self.searchHistories copy]];
+//    self.searchHistoryTags = [self addAndLayoutTagsWithTagsContentView:self.searchHistoryTagsContentView tagTexts:self.hotSearches];
+    
 }
 
 /**  添加和布局标签 */
@@ -920,9 +927,8 @@
     UILabel *label = (UILabel *)gr.view;
     self.searchBar.text = label.text;
     
-    self.navigationController.navigationBarHidden=NO;
-
-    self.navigationController.navigationBar.transform = CGAffineTransformIdentity;
+//    self.navigationController.navigationBarHidden=NO;
+//    self.navigationController.navigationBar.transform = CGAffineTransformIdentity;
     
     if (label.tag == 1) { // 热门搜索标签
         // 取出下标

@@ -263,7 +263,7 @@ static CGFloat viewOffset = 64;
         // 3. 设置风格
         
         searchViewController.hotSearchStyle = 0; // 热门搜索风格根据选择
-        searchViewController.searchHistoryStyle = PYSearchHistoryStyleBorderTag; // 搜索历史风格为default
+        searchViewController.searchHistoryStyle = PYSearchHistoryStyleNormalTag; // 搜索历史风格为default
         // 4. 设置代理
         searchViewController.delegate = self;
         

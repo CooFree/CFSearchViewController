@@ -19,6 +19,11 @@
     self.title = @"SearchResultViewController";
     self.view.backgroundColor = PYSEARCH_RANDOM_COLOR;
 }
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+//        self.navigationController.navigationBar.transform = CGAffineTransformIdentity;
+}
 - (void)viewDidDisappear:(BOOL)animated {
     
 }
