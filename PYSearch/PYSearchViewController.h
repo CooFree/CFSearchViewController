@@ -171,6 +171,4 @@ typedef NS_ENUM(NSInteger, PYSearchResultShowMode) { // 搜索结果显示方式
 /** 搜索建议（推荐）控制器 */
 @property (nonatomic, weak) PYSearchSuggestionViewController *searchSuggestionVC;
 
-@property (nonatomic, strong) UIView *searchBackgroundView;
-
 @end

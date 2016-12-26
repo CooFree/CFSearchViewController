@@ -30,16 +30,15 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-//    [[UINavigationBar appearance]setBackgroundImage:[self imageWithColor:[UIColor brownColor] size:CGSizeMake(1, 1)]
-//                                      forBarMetrics:UIBarMetricsDefault];
-    
 //    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navBg"] forBarMetrics:UIBarMetricsDefault];
     
-    [[UINavigationBar appearance]setBarTintColor:[UIColor brownColor]];
+    [[UIApplication sharedApplication]setStatusBarStyle:UIStatusBarStyleLightContent];
+
+    [[UINavigationBar appearance]setBarTintColor:[[UIColor blackColor]colorWithAlphaComponent:0.1]];
     
     ViewController * VC = [[ViewController alloc]init];
     UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:VC];
-    nav.navigationBar.translucent=NO;
+//    nav.navigationBar.translucent=NO;
     self.window.rootViewController = nav;
     
     return YES;
