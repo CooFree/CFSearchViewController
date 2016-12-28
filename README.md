@@ -2,9 +2,20 @@
 一个搜索  带有历史搜索记录
 ####Bug
 
-|问题        |    方法       |
-|----------- |   :------------- |
-|~~导航栏黑色问题~~|                                         `       -(void)viewWillAppear:(BOOL)animated    {    [superviewWillAppear:animated]; self.navigationController.navigationBarHidden=YES;//这样写存在bug       [self.navigationController setNavigationBarHidden:YES animated:animated];   }` |
+<table>
+    <tr>
+        <th>问题</th>
+        <th>解决方法</th>
+    </tr>
+    <tr>
+        <td>导航栏黑色问题</td>
+        <td>-(void)viewWillAppear:(BOOL)animated {<br>
+            [superviewWillAppear:animated];<br>
+            //self.navigationController.navigationBarHidden=YES;//这样写存在bug<br>
+            [self.navigationController setNavigationBarHidden:YES                animated:animated];<br>  
+}</td>
+    </tr>
+</table>
 
       
                
